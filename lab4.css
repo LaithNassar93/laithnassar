@@ -1,0 +1,51 @@
+form {
+    margin: 20px;
+}
+
+textarea {
+    resize: none;
+}
+
+
+.header {
+    background-color: rgba(161, 203, 188, 255);
+}
+
+.body {
+    border: 3px rgba(161, 203, 188, 255) solid;
+}
+
+.noborder {
+    border: 0px;
+    outline: 0px;
+}
+
+select.noborder {
+    background-color: rgba(161, 203, 188, 255);
+    margin-top: 1.8em;
+}
+
+.regnow {
+    margin-top: 10px;
+}
+
+.form-group.required .control-label:after {
+    content: "*";
+    color: red;
+}
+
+.footer {
+    background-color: lightgray;
+}
+
+
+
+.buttons {
+    background-color: rgba(161, 203, 188, 255);
+    font-weight: bold;
+    border: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 8px;
+    margin-bottom: 2px;
+}
