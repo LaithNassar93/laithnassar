@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // Q1
+        function askPassword(ok, fail) {
+            let password = prompt("Password?", '');
+            if (password == "rockstar") ok();
+            else fail();
+        }
+
+        let user = {
+            name: 'John',
+
+            loginOk() {
+                alert(`${this.name} logged in`);
+            },
+            loginFail() {
+                alert(`${this.name} failed to log in`);
+            },
+        };
+        askPassword(user.loginOk.bind(user), user.loginFail.bind(user));
+
+
+        // Q2
+
+        let group = {
+            title: "Our Group",
+            students: ["John", "Pete", "Alice"],
+            showList: function () {
+                this.students.forEach(function (student) {
+                    console.log(this.title + ": " + student);
+
+                }.bind(group));
+            }
+        };
+
+        group.showList();
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
