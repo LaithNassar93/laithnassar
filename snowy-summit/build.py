@@ -89,6 +89,23 @@ details{background:#fff;border:1px solid #d8e4ee;border-radius:10px;padding:14px
 input:invalid:not(:placeholder-shown){border-color:#c0392b}
 .row2{display:grid;gap:14px;grid-template-columns:1fr 1fr}@media(max-width:560px){.row2{grid-template-columns:1fr}}
 @media(max-width:900px){.menu-btn{display:block}nav{display:none;width:100%}nav.open{display:block}nav ul{flex-direction:column;align-items:stretch}nav li ul{display:flex}}
+.wiz{scroll-margin-top:84px;max-width:640px;margin:0 auto;border-radius:14px;overflow:hidden;box-shadow:0 10px 40px rgba(18,50,79,.18);background:var(--ice);border:1px solid #d8e4ee}
+.wiz-head{background:var(--navy);color:#fff;padding:18px 22px 0;text-align:center}.eyebrow{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:#cfe3f3}
+.wiz-head h2{color:#fff;margin:6px 0 14px;font-size:1.35rem;outline:0}.prog{height:4px;background:rgba(255,255,255,.2);margin:0 -22px}.prog i{display:block;height:100%;width:25%;background:var(--accent);transition:width .3s}
+.wiz-body{padding:22px;min-height:360px;display:grid;gap:14px;align-content:start}.wiz-body>div{display:grid;gap:14px}.wiz-body [hidden]{display:none!important}
+.opts{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.opt{position:relative;background:#fff;border:2px solid #d8e4ee;border-radius:12px;padding:16px;cursor:pointer;display:grid;gap:6px;font-weight:400}.opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer}
+.opt b{color:var(--navy)}.opt small{color:var(--muted);line-height:1.3}.ico{width:44px;height:44px;border-radius:10px;background:var(--ice);color:var(--blue);display:grid;place-items:center}.ico svg{width:26px;height:26px}
+.opt:has(input:checked){border-color:var(--blue);box-shadow:0 0 0 3px rgba(43,123,187,.2)}.opt:has(input:checked) .ico{background:var(--blue);color:#fff}.opt:has(input:focus-visible){outline:3px solid var(--accent)}
+.zip{max-width:260px}
+.cal{background:#fff;border:1px solid #d8e4ee;border-radius:12px;padding:14px}.cal-h{display:flex;justify-content:space-between;align-items:center;font-weight:800;color:var(--navy);margin-bottom:8px}
+.cal-h button{border:0;background:transparent;font-size:1.4rem;cursor:pointer;color:var(--blue);padding:4px 12px;border-radius:8px}.cal-h button:disabled{color:#b9c9d6;cursor:default}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.cal-g span{font-size:.8rem;color:var(--muted);font-weight:700}
+.cal-g button{border:0;background:transparent;border-radius:50%;aspect-ratio:1;font:inherit;font-weight:700;cursor:pointer;color:var(--text)}.cal-g button:hover:not(:disabled){background:var(--ice)}.cal-g button:disabled{color:#b9c9d6;cursor:default;font-weight:400}.cal-g button[aria-pressed=true]{background:var(--blue);color:#fff}
+.slots h3{margin:0 0 8px;color:var(--navy);font-size:1.05rem}.slot-row{display:flex;flex-wrap:wrap;gap:10px}
+.slot{border:2px solid #d8e4ee;background:#fff;border-radius:999px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer;color:var(--navy)}.slot[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.wiz-foot{background:var(--navy);display:flex;justify-content:space-between;align-items:center;padding:14px 22px}.wb{background:transparent;border:0;color:#fff;font:inherit;font-size:1.05rem;cursor:pointer;padding:10px 6px}.wb[hidden]{visibility:hidden;display:block!important}
+.err{color:#b3261e;font-weight:600;min-height:1.2em;margin:0}.done{text-align:center;justify-items:center}.tick{width:64px;height:64px;border-radius:50%;background:#2e9d5c;color:#fff;font-size:2rem;display:grid;place-items:center}
 footer{background:#0c2338;color:#cfe0ee;padding:44px 0 24px;font-size:.95rem}footer a{color:#cfe0ee}footer h4{color:#fff;margin:0 0 8px}
 footer .grid{margin-bottom:20px}footer ul{list-style:none;padding:0;margin:0}.fine{border-top:1px solid #234;padding-top:16px;font-size:.85rem}
 .callbar{display:none}@media(max-width:700px){.callbar{display:block;position:fixed;bottom:0;left:0;right:0;background:var(--accent);text-align:center;padding:14px;font-weight:800;z-index:20}.callbar a{color:#1b1b1b;text-decoration:none}body{padding-bottom:52px}nav li ul{position:static;box-shadow:none;display:flex;padding-left:12px}}
@@ -106,6 +123,46 @@ d.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove
 var md=d.querySelector('[data-mindate]');if(md){md.min=new Date().toISOString().split('T')[0]}
 d.querySelectorAll('form[data-ajax]').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();var btn=f.querySelector('button');btn.disabled=true;btn.textContent='Sending...';
 fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}}).then(function(r){if(!r.ok)throw 0;f.reset();var m=d.querySelector('.msg');m.classList.add('show');m.scrollIntoView({behavior:'smooth',block:'center'})}).catch(function(){alert('Sorry, something went wrong. Please call us instead.')}).finally(function(){btn.disabled=false;btn.textContent='Send Request'})})});
+
+var W=d.getElementById('wiz');
+if(W){(function(){
+var step=1,titles=['How can we help you?','When do you need service?',"Let's get you into our system.","You're all set!"];
+var st={service:'',zip:'',date:null,slot:'',vm:new Date()};st.vm.setDate(1);
+var $=function(i){return d.getElementById(i)},err=$('wizErr'),next=$('wizNext'),back=$('wizBack');
+var today=new Date();today.setHours(0,0,0,0);var maxM=new Date(today.getFullYear(),today.getMonth()+3,1);
+var MN=['January','February','March','April','May','June','July','August','September','October','November','December'],DN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+function fmt(h){var s=h>=12?'PM':'AM',x=h%12||12;return x+':00 '+s}
+function slotsFor(dt){var dow=dt.getDay();if(dow===0)return[];var hrs=dow===6?[9,11,13]:[8,10,12,14,16],out=[],now=new Date();
+hrs.forEach(function(h){var e=dow===6?h+2:h+2;var start=new Date(dt);start.setHours(h);if(dt.getTime()===today.getTime()&&start<=now)return;out.push(fmt(h)+' - '+fmt(e))});return out}
+function hasSlots(dt){return dt>=today&&slotsFor(dt).length>0}
+function cal(){var y=st.vm.getFullYear(),m=st.vm.getMonth(),first=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate();
+var h='<div class="cal-h"><button type="button" id="cp" aria-label="Previous month"'+(new Date(y,m,1)<=new Date(today.getFullYear(),today.getMonth(),1)?' disabled':'')+'>&#8249;</button><span>'+MN[m]+' '+y+'</span><button type="button" id="cn" aria-label="Next month"'+(new Date(y,m+1,1)>=maxM?' disabled':'')+'>&#8250;</button></div><div class="cal-g">';
+['S','M','T','W','T','F','S'].forEach(function(x){h+='<span>'+x+'</span>'});for(var i=0;i<first;i++)h+='<i></i>';
+for(var k=1;k<=n;k++){var dt=new Date(y,m,k),sel=st.date&&st.date.getTime()===dt.getTime();h+='<button type="button" data-d="'+k+'" aria-pressed="'+(sel?'true':'false')+'"'+(hasSlots(dt)?'':' disabled')+'>'+k+'</button>'}
+$('cal').innerHTML=h+'</div>';
+$('cp').onclick=function(){st.vm=new Date(y,m-1,1);cal()};$('cn').onclick=function(){st.vm=new Date(y,m+1,1);cal()};
+$('cal').querySelectorAll('[data-d]').forEach(function(b){b.onclick=function(){st.date=new Date(y,m,+b.dataset.d);st.slot='';err.textContent='';cal();slots()}})}
+function slots(){var el=$('slots');if(!st.date){el.innerHTML='<p>Select a date to see available time windows.</p>';return}
+var h='<h3>'+DN[st.date.getDay()]+', '+MN[st.date.getMonth()]+' '+st.date.getDate()+', '+st.date.getFullYear()+'</h3><div class="slot-row">';
+slotsFor(st.date).forEach(function(s){h+='<button type="button" class="slot" aria-pressed="'+(st.slot===s)+'">'+s+'</button>'});el.innerHTML=h+'</div>';
+el.querySelectorAll('.slot').forEach(function(b){b.onclick=function(){st.slot=b.textContent;err.textContent='';slots()}})}
+function show(n){step=n;W.querySelectorAll('[data-step]').forEach(function(x){x.hidden=+x.dataset.step!==n});$('wizTitle').textContent=titles[n-1];$('wizProg').style.width=(n*25)+'%';err.textContent='';
+back.hidden=n===1||n===4;next.hidden=n===4;next.textContent=n===3?'Book appointment':'Next';if(n===2){if(!st.date){var t=new Date(today);for(var i=0;i<60&&!hasSlots(t);i++)t.setDate(t.getDate()+1);st.date=hasSlots(t)?t:null;if(st.date){st.vm=new Date(t.getFullYear(),t.getMonth(),1)}}cal();slots()}
+$('wizTitle').focus({preventScroll:true});W.scrollIntoView({behavior:'smooth',block:'start'})}
+W.querySelectorAll('input[name=service]').forEach(function(r){r.addEventListener('change',function(){st.service=r.value;err.textContent=''})});
+$('ph').addEventListener('input',function(e){var v=e.target.value.replace(/\D/g,'').slice(0,10);e.target.value=v.length>6?'('+v.slice(0,3)+') '+v.slice(3,6)+'-'+v.slice(6):v.length>3?'('+v.slice(0,3)+') '+v.slice(3):v});
+back.onclick=function(){show(step-1)};
+next.onclick=function(){
+if(step===1){var z=$('zip').value.trim();if(!st.service){err.textContent='Please choose what you need help with.';return}if(!/^\d{5}$/.test(z)){err.textContent='Enter a valid 5-digit zip code.';$('zip').focus();return}st.zip=z;show(2)}
+else if(step===2){if(!st.date||!st.slot){err.textContent='Pick a date and a time window.';return}show(3)}
+else if(step===3){var fn=$('fn').value.trim(),ln=$('ln').value.trim(),ph=$('ph').value.replace(/\D/g,''),em=$('em').value.trim();
+if(!fn||!ln){err.textContent='Enter your first and last name.';return}if(ph.length!==10){err.textContent='Enter a 10-digit phone number.';$('ph').focus();return}if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){err.textContent='Enter a valid email address.';$('em').focus();return}
+var dtxt=DN[st.date.getDay()]+', '+MN[st.date.getMonth()]+' '+st.date.getDate()+', '+st.date.getFullYear()+' ('+st.slot+')';
+next.disabled=true;next.textContent='Booking...';
+fetch(W.dataset.endpoint,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({_subject:'New appointment request',service:st.service,zip:st.zip,appointment:dtxt,name:fn+' '+ln,phone:$('ph').value,email:em,notes:$('nt').value})})
+.then(function(r){if(!r.ok)throw 0;$('sum').textContent=fn+', your request for '+st.service+' on '+dtxt+' was received.';show(4)})
+.catch(function(){err.textContent='We could not send your request. Please call us to book.'}).finally(function(){next.disabled=false;if(step===3)next.textContent='Book appointment'})}};
+show(1)})()}
 })();"""
 def esc(s): return html.escape(s, quote=True)
 
@@ -265,20 +322,35 @@ page("contact.html", f"Contact & Free Quote | {NAME}", "Contact Snowy Summit Gar
 {MAP}</div></div><p class="msg" role="status">Thanks! We received your request and will call you shortly.</p>'''),
  h1="Contact Us", sub="Call, request a quote, or book a service visit.", crumbs=[("Home","index.html")])
 
-page("booking.html", f"Book a Service Appointment | {NAME}", "Book a garage door repair, installation or maintenance appointment online with Snowy Summit.",
- sec(f'''<div class="grid"><div><h2>Book an Appointment</h2>
-<form data-ajax action="https://formsubmit.co/ajax/{EMAIL}" method="POST"><!-- PLACEHOLDER form handler -->
-<div class="row2"><label>Name<input name="name" required autocomplete="name"></label><label>Phone<input name="phone" type="tel" required autocomplete="tel"></label></div>
-<label>Email<input name="email" type="email" autocomplete="email"></label>
-<label>Service address<input name="address" required autocomplete="street-address"></label>
-<div class="row2"><label>Service<select name="service">{"".join(f"<option>{s[1]}</option>" for s in SERVICES)}</select></label>
-<label>City<select name="city">{"".join(f"<option>{c}</option>" for c in CITIES)}<option>Other</option></select></label></div>
-<div class="row2"><label>Preferred date<input name="date" type="date" data-mindate required></label>
-<label>Time window<select name="window"><option>Morning (8-12)</option><option>Afternoon (12-4)</option><option>Evening (4-7)</option></select></label></div>
-<label>Notes<textarea name="message" rows="3"></textarea></label><button class="btn" type="submit">Request Appointment</button></form>
-<p class="msg" role="status">Thanks! We received your booking request and will confirm by phone.</p></div>
-<div><h2>Need it now?</h2><p>For urgent repairs call <a href="tel:{PHONE_TEL}"><strong>{PHONE}</strong></a>.</p>{MAP}</div></div>'''),
- h1="Book Online", sub="Pick a day and time window. We'll confirm by phone.", crumbs=[("Home","index.html")])
+WIZ = """<div class="wiz" id="wiz" data-endpoint="__ENDPOINT__">
+<div class="wiz-head"><span class="eyebrow">Appointment scheduler</span><h2 id="wizTitle" tabindex="-1">How can we help you?</h2><div class="prog" aria-hidden="true"><i id="wizProg"></i></div></div>
+<div class="wiz-body">
+<div data-step="1">
+<div class="opts" role="radiogroup" aria-label="Service type">
+<label class="opt"><input type="radio" name="service" value="Garage Door & Opener Repairs"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span><b>Garage Door &amp; Opener Repairs</b><small>Springs, cables, tracks, sensors, noisy or stuck doors</small></label>
+<label class="opt"><input type="radio" name="service" value="New Garage Door"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-6 9 6v12"/><path d="M7 21v-8h10v8M7 15h10M7 18h10"/></svg></span><b>New Garage Door</b><small>Free estimate and professional installation</small></label>
+<label class="opt"><input type="radio" name="service" value="New Garage Door Opener"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="7" rx="2"/><path d="M12 11v5M9 21l3-5 3 5"/></svg></span><b>New Garage Door Opener</b><small>Quiet, smart-ready openers installed and tested</small></label>
+</div>
+<label class="zip">Zip / Postal code<input id="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="e.g. 55401"></label>
+</div>
+<div data-step="2" hidden>
+<div class="cal" id="cal"></div>
+<div id="slots" class="slots"></div>
+</div>
+<div data-step="3" hidden>
+<div class="row2"><label>First name *<input id="fn" autocomplete="given-name" placeholder="Enter your first name"></label><label>Last name *<input id="ln" autocomplete="family-name" placeholder="Enter your last name"></label></div>
+<label>Phone number *<input id="ph" type="tel" inputmode="tel" autocomplete="tel" placeholder="(XXX) XXX-XXXX"></label>
+<label>Email *<input id="em" type="email" autocomplete="email" placeholder="Enter your email address"></label>
+<label>Notes (optional)<textarea id="nt" rows="3" placeholder="Tell us what's going on with your door"></textarea></label>
+</div>
+<div data-step="4" hidden><div class="done"><div class="tick">&#10003;</div><p id="sum"></p><p>We will confirm by phone. Need it sooner? Call <a href="tel:__TEL__">__PHONE__</a>.</p><a class="btn" href="index.html">Back to home</a></div></div>
+<p class="err" id="wizErr" role="alert"></p>
+</div>
+<div class="wiz-foot"><button type="button" class="wb" id="wizBack">Back</button><button type="button" class="btn" id="wizNext">Next</button></div>
+</div>"""
+page("booking.html", f"Book a Service Appointment | {NAME}", "Book a garage door repair, new door or new opener appointment online in minutes with Snowy Summit.",
+ sec(WIZ.replace("__ENDPOINT__", f"https://formsubmit.co/ajax/{EMAIL}").replace("__TEL__",PHONE_TEL).replace("__PHONE__",PHONE)),
+ h1="Book Online", sub="Choose a service, pick a time window and tell us how to reach you.", crumbs=[("Home","index.html")])
 page("404.html", f"Page Not Found | {NAME}", "Page not found.", sec('<p><a class="btn" href="index.html">Back to home</a> <a class="btn alt" href="contact.html">Contact us</a></p>'), h1="Page not found")
 pages.remove("404.html")
 

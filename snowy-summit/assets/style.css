@@ -43,6 +43,23 @@ details{background:#fff;border:1px solid #d8e4ee;border-radius:10px;padding:14px
 input:invalid:not(:placeholder-shown){border-color:#c0392b}
 .row2{display:grid;gap:14px;grid-template-columns:1fr 1fr}@media(max-width:560px){.row2{grid-template-columns:1fr}}
 @media(max-width:900px){.menu-btn{display:block}nav{display:none;width:100%}nav.open{display:block}nav ul{flex-direction:column;align-items:stretch}nav li ul{display:flex}}
+.wiz{scroll-margin-top:84px;max-width:640px;margin:0 auto;border-radius:14px;overflow:hidden;box-shadow:0 10px 40px rgba(18,50,79,.18);background:var(--ice);border:1px solid #d8e4ee}
+.wiz-head{background:var(--navy);color:#fff;padding:18px 22px 0;text-align:center}.eyebrow{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:#cfe3f3}
+.wiz-head h2{color:#fff;margin:6px 0 14px;font-size:1.35rem;outline:0}.prog{height:4px;background:rgba(255,255,255,.2);margin:0 -22px}.prog i{display:block;height:100%;width:25%;background:var(--accent);transition:width .3s}
+.wiz-body{padding:22px;min-height:360px;display:grid;gap:14px;align-content:start}.wiz-body>div{display:grid;gap:14px}.wiz-body [hidden]{display:none!important}
+.opts{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.opt{position:relative;background:#fff;border:2px solid #d8e4ee;border-radius:12px;padding:16px;cursor:pointer;display:grid;gap:6px;font-weight:400}.opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer}
+.opt b{color:var(--navy)}.opt small{color:var(--muted);line-height:1.3}.ico{width:44px;height:44px;border-radius:10px;background:var(--ice);color:var(--blue);display:grid;place-items:center}.ico svg{width:26px;height:26px}
+.opt:has(input:checked){border-color:var(--blue);box-shadow:0 0 0 3px rgba(43,123,187,.2)}.opt:has(input:checked) .ico{background:var(--blue);color:#fff}.opt:has(input:focus-visible){outline:3px solid var(--accent)}
+.zip{max-width:260px}
+.cal{background:#fff;border:1px solid #d8e4ee;border-radius:12px;padding:14px}.cal-h{display:flex;justify-content:space-between;align-items:center;font-weight:800;color:var(--navy);margin-bottom:8px}
+.cal-h button{border:0;background:transparent;font-size:1.4rem;cursor:pointer;color:var(--blue);padding:4px 12px;border-radius:8px}.cal-h button:disabled{color:#b9c9d6;cursor:default}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.cal-g span{font-size:.8rem;color:var(--muted);font-weight:700}
+.cal-g button{border:0;background:transparent;border-radius:50%;aspect-ratio:1;font:inherit;font-weight:700;cursor:pointer;color:var(--text)}.cal-g button:hover:not(:disabled){background:var(--ice)}.cal-g button:disabled{color:#b9c9d6;cursor:default;font-weight:400}.cal-g button[aria-pressed=true]{background:var(--blue);color:#fff}
+.slots h3{margin:0 0 8px;color:var(--navy);font-size:1.05rem}.slot-row{display:flex;flex-wrap:wrap;gap:10px}
+.slot{border:2px solid #d8e4ee;background:#fff;border-radius:999px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer;color:var(--navy)}.slot[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.wiz-foot{background:var(--navy);display:flex;justify-content:space-between;align-items:center;padding:14px 22px}.wb{background:transparent;border:0;color:#fff;font:inherit;font-size:1.05rem;cursor:pointer;padding:10px 6px}.wb[hidden]{visibility:hidden;display:block!important}
+.err{color:#b3261e;font-weight:600;min-height:1.2em;margin:0}.done{text-align:center;justify-items:center}.tick{width:64px;height:64px;border-radius:50%;background:#2e9d5c;color:#fff;font-size:2rem;display:grid;place-items:center}
 footer{background:#0c2338;color:#cfe0ee;padding:44px 0 24px;font-size:.95rem}footer a{color:#cfe0ee}footer h4{color:#fff;margin:0 0 8px}
 footer .grid{margin-bottom:20px}footer ul{list-style:none;padding:0;margin:0}.fine{border-top:1px solid #234;padding-top:16px;font-size:.85rem}
 .callbar{display:none}@media(max-width:700px){.callbar{display:block;position:fixed;bottom:0;left:0;right:0;background:var(--accent);text-align:center;padding:14px;font-weight:800;z-index:20}.callbar a{color:#1b1b1b;text-decoration:none}body{padding-bottom:52px}nav li ul{position:static;box-shadow:none;display:flex;padding-left:12px}}
