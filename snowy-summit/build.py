@@ -297,7 +297,8 @@ open(os.path.join(OUT,"assets/og-image.svg"),"w").write('<svg xmlns="http://www.
 open(os.path.join(OUT,"assets/favicon.svg"),"w").write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#12324f"/><path d="M8 52 32 16l24 36z" fill="#fff"/><rect x="22" y="36" width="20" height="16" fill="#f2a900"/></svg>')
 open(os.path.join(OUT,"assets/site.js"),"w").write(JS)
 sm = ['<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-for pth in pages: pr = "1.0" if pth=="index.html" else "0.8" if pth.startswith(("services/","service-areas/")) or pth in("contact.html","booking.html") else "0.6"
+for pth in pages:
+    pr = "1.0" if pth=="index.html" else "0.8" if pth.startswith(("services/","service-areas/")) or pth in("contact.html","booking.html") else "0.6"
     sm.append(f"<url><loc>{DOMAIN}/{pth if pth!='index.html' else ''}</loc><lastmod>{LASTMOD}</lastmod><priority>{pr}</priority></url>")
 sm.append("</urlset>")
 open(os.path.join(OUT,"sitemap.xml"),"w").write("\n".join(sm))
