@@ -3,9 +3,9 @@
 import os, html
 OUT = os.path.dirname(os.path.abspath(__file__))
 DOMAIN = "https://snowysummitgaragedoor.com"
-NAME = "Snowy Summit Garage Door Repair"
-PHONE = "(612) 555-0100"          # PLACEHOLDER - replace
-PHONE_TEL = "+16125550100"        # PLACEHOLDER - replace
+NAME = "Snowy Summit Garage Door"
+PHONE = "(651) 500-9929"
+PHONE_TEL = "+16515009929"
 GA_ID = ""            # e.g. "G-XXXXXXXXXX" - Google Analytics 4 measurement ID
 GSC_TOKEN = ""        # Google Search Console HTML-tag verification code
 BING_TOKEN = ""       # Bing Webmaster Tools verification code
@@ -24,7 +24,7 @@ SERVICES = [
  ("garage-door-maintenance","Garage Door Maintenance","Seasonal tune-ups that prevent breakdowns and extend the life of your door.",
   ["Lubrication of moving parts","Spring, cable and roller inspection","Balance and auto-reverse test","Weather seal check","Tightening of hardware"]),
 ]
-CITIES = ["Minneapolis","St. Paul","Woodbury","Eagan","Lakeville","Eden Prairie"]
+CITIES = ["Eagan","Minneapolis","St. Paul","Woodbury","Lakeville","Eden Prairie"]
 def slug(s): return s.lower().replace(". ","").replace(" ","-")
 
 EXTRA = [  # additional SEO pages
@@ -44,8 +44,8 @@ POSTS = [
   ["Chain drive: durable and budget-friendly, but louder.","Belt drive: quiet, good for attached garages.","Direct drive: fewest moving parts and very quiet.","Look for battery backup and smartphone connectivity."]),
 ]
 
-CSS = """:root{--navy:#12324f;--blue:#2b7bbb;--ice:#eaf4fb;--accent:#f2a900;--text:#1d2a36;--muted:#5b6b7a}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text);line-height:1.6;background:#fff}
+CSS = """:root{--navy:#161616;--blue:#2f67a1;--ice:#eef2f6;--accent:#7fb0e0;--text:#1d232a;--muted:#5b6670}
+*{box-sizing:border-box}body{margin:0;font-family:'Old Standard TT',Georgia,serif;font-size:17px;color:var(--text);line-height:1.7;background:#fff}h1,h2,h3,h4,.btn,nav a,.eyebrow,summary,.slot,.opt b,.wb,.cal-h{font-family:Epilogue,system-ui,sans-serif;letter-spacing:.05em}h1,h2{font-weight:800}
 a{color:var(--blue)}img{max-width:100%}.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
 header.site{background:var(--navy);color:#fff;position:sticky;top:0;z-index:10}
 header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
@@ -55,9 +55,16 @@ nav li{position:relative}nav a{color:#fff;text-decoration:none;padding:8px 10px;
 nav a:hover{background:rgba(255,255,255,.12)}
 nav li ul{display:none;position:absolute;left:0;top:100%;background:var(--navy);min-width:260px;flex-direction:column;padding:6px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 nav li:hover>ul,nav li:focus-within>ul{display:flex}
-.btn{display:inline-block;background:var(--accent);color:#1b1b1b!important;font-weight:700;padding:12px 22px;border-radius:8px;text-decoration:none;border:0;cursor:pointer;font-size:1rem}
-.btn.alt{background:#fff}.btn:hover{filter:brightness(.95)}
-.hero{background:linear-gradient(135deg,var(--navy),#1d5a8c);color:#fff;padding:72px 0}
+.btn{display:inline-block;background:var(--blue);color:#fff!important;font-weight:700;padding:13px 26px;border-radius:999px;text-decoration:none;border:0;cursor:pointer;font-size:1rem}
+.btn.alt{background:transparent;color:inherit!important;border:2px solid currentColor}.hero:not(.light) .btn.alt,.cta .btn.alt{color:#fff!important}.btn:hover{filter:brightness(.95)}
+.hero{background:linear-gradient(135deg,var(--navy),#27527f);color:#fff;padding:72px 0}
+.hero.light{background:linear-gradient(180deg,#f6f8fa,#dde4ec);color:#151515}.hero.light h1{color:#151515}.hero.light .pre{font-size:1.05rem;margin:0 0 8px;color:#151515}.herologo{display:block;background:#fff;padding:28px;max-width:360px;width:100%;margin:0 0 28px}
+.dark{background:#151515;color:#eee}.dark h2,.dark h3{color:#fff}.dark .btn.alt{color:#fff!important}.split{display:grid;gap:36px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}.split .ph{height:240px;margin-bottom:16px}
+.ba{display:grid;gap:14px;grid-template-columns:1fr 1fr;margin-bottom:14px}.ba .ph{height:150px}.ba small{display:block;text-align:center;margin-top:4px;color:var(--muted)}
+.chat{position:fixed;right:16px;bottom:72px;z-index:30}.chat-b{width:60px;height:60px;border-radius:50%;border:0;background:#8fd3cf;color:#12323a;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.3);display:grid;place-items:center}.chat-b svg{width:30px;height:30px}
+.chat-p{position:absolute;right:0;bottom:72px;width:min(320px,calc(100vw - 32px));background:#fff;border-radius:14px;box-shadow:0 12px 36px rgba(0,0,0,.3);overflow:hidden;display:none;color:var(--text)}.chat.open .chat-p{display:block}
+.chat-p header{background:var(--navy);color:#fff;padding:14px 16px;font-family:Epilogue,sans-serif;font-weight:700}.chat-p div{padding:16px;display:grid;gap:10px}.chat-p .btn{text-align:center}
+@media(min-width:701px){.chat{bottom:20px}}
 .hero h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;margin:0 0 14px}.hero p{font-size:1.15rem;max-width:640px;margin:0 0 24px}
 .hero.small{padding:44px 0}.hero.small h1{font-size:clamp(1.7rem,4vw,2.4rem)}
 section{padding:56px 0}section.alt{background:var(--ice)}h2{color:var(--navy);margin-top:0}
@@ -124,6 +131,8 @@ var md=d.querySelector('[data-mindate]');if(md){md.min=new Date().toISOString().
 d.querySelectorAll('form[data-ajax]').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();var btn=f.querySelector('button');btn.disabled=true;btn.textContent='Sending...';
 fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}}).then(function(r){if(!r.ok)throw 0;f.reset();var m=d.querySelector('.msg');m.classList.add('show');m.scrollIntoView({behavior:'smooth',block:'center'})}).catch(function(){alert('Sorry, something went wrong. Please call us instead.')}).finally(function(){btn.disabled=false;btn.textContent='Send Request'})})});
 
+var ch=d.createElement('div');ch.className='chat';ch.innerHTML='<div class="chat-p" role="dialog" aria-label="Contact us"><header>Questions? We\'re here every day, all day.</header><div><a class="btn" href="tel:__TEL__">Call __PHONE__</a><a class="btn alt" style="color:#161616!important" href="'+(d.querySelector('link[rel=icon]').getAttribute('href').replace('assets/favicon.svg','booking.html'))+'">Book online</a></div></div><button class="chat-b" type="button" aria-label="Open contact options" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.2A8 8 0 1 1 21 12z"/></svg></button>';d.body.appendChild(ch);
+ch.querySelector('.chat-b').addEventListener('click',function(){var o=ch.classList.toggle('open');this.setAttribute('aria-expanded',o)});
 var W=d.getElementById('wiz');
 if(W){(function(){
 var step=1,titles=['How can we help you?','When do you need service?',"Let's get you into our system.","You're all set!"];
@@ -193,14 +202,14 @@ def footer(depth):
 
 import json
 LOCAL_SCHEMA = json.dumps({"@context":"https://schema.org","@type":"GarageDoorContractor","@id":DOMAIN+"/#business","name":NAME,"url":DOMAIN+"/","telephone":PHONE,"email":EMAIL,"image":DOMAIN+"/assets/og-image.svg","priceRange":"$$",
- "address":{"@type":"PostalAddress","streetAddress":"[PLACEHOLDER]","addressLocality":"Minneapolis","addressRegion":"MN","postalCode":"[PLACEHOLDER]","addressCountry":"US"},
+ "address":{"@type":"PostalAddress","streetAddress":"[PLACEHOLDER]","addressLocality":"Eagan","addressRegion":"MN","postalCode":"[PLACEHOLDER]","addressCountry":"US"},
  "areaServed":[{"@type":"City","name":c+", MN"} for c in CITIES],
- "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"08:00","closes":"18:00"}],
+ "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"}],
  "hasOfferCatalog":{"@type":"OfferCatalog","name":"Garage door services","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":x[1]}} for x in SERVICES]},
  "sameAs":[]})
 
 pages = []  # (path, priority)
-def page(path, title, desc, body, h1=None, sub=None, crumbs=None, schema=None, hero=True, small=True, hero_extra="", trust=False):
+def page(path, title, desc, body, h1=None, sub=None, crumbs=None, schema=None, hero=True, small=True, hero_extra="", trust=False, herocls="", hero_pre=""):
     depth = path.count("/")
     hero_extra_after = TRUST if trust else ""
     p = "../"*depth
@@ -209,7 +218,7 @@ def page(path, title, desc, body, h1=None, sub=None, crumbs=None, schema=None, h
         cr = '<div class="crumbs">'+" / ".join(f'<a href="{p}{u}">{esc(t)}</a>' for t,u in crumbs)+'</div>'
     heroh = ""
     if hero and h1:
-        heroh = f'<div class="hero{" small" if small else ""}"><div class="wrap">{cr}<h1>{esc(h1)}</h1>{"<p>"+esc(sub)+"</p>" if sub else ""}{hero_extra}</div></div>{hero_extra_after}'
+        heroh = f'<div class="hero{" small" if small else ""}{herocls}"><div class="wrap">{cr}{hero_pre}<h1>{esc(h1)}</h1>{"<p>"+esc(sub)+"</p>" if sub else ""}{hero_extra}</div></div>{hero_extra_after}'
     sch = f'<script type="application/ld+json">{schema}</script>' if schema else ""
     verif = (f'<meta name="google-site-verification" content="{GSC_TOKEN}">' if GSC_TOKEN else "")+(f'<meta name="msvalidate.01" content="{BING_TOKEN}">' if BING_TOKEN else "")
     ga = (f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag("js",new Date());gtag("config","{GA_ID}")</script>' if GA_ID else "")
@@ -223,9 +232,9 @@ def page(path, title, desc, body, h1=None, sub=None, crumbs=None, schema=None, h
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{esc(title)}</title><meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{DOMAIN}/{path}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}"><meta property="og:type" content="website"><meta property="og:url" content="{DOMAIN}/{path}"><meta property="og:site_name" content="{NAME}"><meta property="og:locale" content="en_US"><meta property="og:image" content="{DOMAIN}/assets/og-image.svg"><meta name="twitter:card" content="summary_large_image"><meta name="robots" content="index,follow,max-image-preview:large">{verif}
-<link rel="icon" href="{p}assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="{p}assets/style.css">{sch}{bc}{ga}
+<link rel="icon" href="{p}assets/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@600;800&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"><link rel="stylesheet" href="{p}assets/style.css">{sch}{bc}{ga}
 <!-- TODO: add Google Analytics / Search Console verification tag here -->
-</head><body><script>document.documentElement.className+=" js"</script><a class="skip" href="#main">Skip to content</a><header class="site"><div class="wrap"><a class="logo" href="{p}index.html">Snowy <span>Summit</span> Garage Door</a>{nav(depth)}</div></header>
+</head><body><script>document.documentElement.className+=" js"</script><a class="skip" href="#main">Skip to content</a><header class="site"><div class="wrap"><a class="logo" href="{p}index.html" aria-label="{NAME} home"><img src="{p}assets/logo-mark.svg" alt="" width="46" height="46"></a>{nav(depth)}</div></header>
 <main id="main">{heroh}{body}
 <section class="cta"><div class="wrap"><h2>Need garage door help today?</h2><p>Call us or request a free quote.</p><a class="btn" href="tel:{PHONE_TEL}">Call {PHONE}</a> <a class="btn alt" href="{p}contact.html">Request a Quote</a></div></section></main>
 {footer(depth)}<script src="{p}assets/site.js" defer></script></body></html>'''
@@ -253,17 +262,25 @@ MAP = '<iframe class="map" title="Service area map" loading="lazy" src="https://
 svc_cards = [(s[1],s[2],f"services/{s[0]}.html") for s in SERVICES]
 area_cards = [(c,f"Garage door repair, installation and maintenance in {c}, MN.",f"service-areas/{slug(c)}.html") for c in CITIES]
 
+def INTRO(c):
+    return (f"Our experienced technicians in {c} can diagnose and repair your garage door and garage door opener problems. We have the equipment and parts to handle all brands and models of garage doors in {c}, MN. From damages to preventative maintenance, we will get your garage door operating safely, quietly, and reliably.")
 # Home
-page("index.html", f"Garage Door Repair & Installation in Minneapolis-St. Paul, MN | {NAME}",
- "Snowy Summit Garage Door Repair: garage door repair, installation, openers and maintenance across the Twin Cities. Call for a free quote.",
- sec("<h2>Our Services</h2>"+cards(svc_cards))+
+page("index.html", f"Garage Door Repair in Eagan, MN | {NAME}",
+ "Snowy Summit Garage Door: reliable garage door repair, installation, openers and maintenance in Eagan, MN and the Twin Cities, every day, all day. Call (651) 500-9929.",
+ f'''<section class="dark reveal"><div class="wrap"><h2 style="text-align:center">Expert Care for Every Garage Door Need</h2><div class="split">
+<div><div class="ph">[PLACEHOLDER photo: residential garage door]</div><h3>Residential Garage Door Service and Repair</h3><p>Our experienced technicians in Eagan can diagnose and repair your garage door and garage door opener problems. We have the equipment and parts to handle all brands and models of garage doors in Eagan, MN. From damages to preventative maintenance, we will get your garage door operating safely, quietly, and reliably.</p><a class="btn alt" href="tel:{PHONE_TEL}">Call us for a free quote</a></div>
+<div><div class="ph">[PLACEHOLDER photo: technician at work]</div><h3>&ldquo;Reliable Garage Door Services&mdash;Every Day, All Day!</h3><p>At Snowy Summit Garage Door, we don&rsquo;t just fix doors&mdash;we open possibilities in Eagan, MN. From seamless installations to reliable repairs, we take pride in providing expert care tailored to your needs. Whether it&rsquo;s a cozy home garage or a bustling commercial space in Eagan, our team ensures your garage doors operate smoothly, securely, and stylishly. With our &lsquo;Every Day, All Day&rsquo; commitment, we&rsquo;re here to keep life moving forward.</p></div>
+</div></div></section>'''+
+ sec("<h2 style='text-align:center'>Our Garage Door Before &amp; After Gallery</h2><p style='text-align:center'>[PLACEHOLDER: replace with your real before and after photos]</p><div class='grid'>"+"".join("<div><div class='ba'><div><div class='ph'>Before</div></div><div><div class='ph'>After</div></div></div></div>" for _ in range(3))+"</div>")+
+ sec("<h2>Our Services</h2>"+cards(svc_cards),True)+
  sec("<h2>Why homeowners call us</h2>"+lst(["Upfront, honest pricing","Technicians who explain the problem before the repair","Repairs, installs and openers from one local team","Serving Minneapolis, St. Paul, Woodbury, Eagan, Lakeville and Eden Prairie"])+'<p><a href="why-choose-us.html">See why choose us &rarr;</a></p>',True)+
  sec("<h2>How it works</h2><div class='steps'><div><h3>Call or book</h3><p>Phone us or book online in under a minute.</p></div><div><h3>Get a clear quote</h3><p>We diagnose the problem and quote before starting.</p></div><div><h3>Fixed right</h3><p>We repair, test for safety and clean up.</p></div></div>",True)+
  sec("<h2>What customers say</h2><div class='grid'>"+"".join("<div class='card'><div class='stars'>&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class='quote'>&ldquo;[PLACEHOLDER: add a real customer review here.]&rdquo;</p><strong>[Customer name], [City]</strong></div>" for _ in range(3))+"</div>")+
  sec(faq(),True)+
  sec("<h2>Service Areas</h2>"+cards(area_cards)+"<br>"+MAP),
- h1="Garage Door Repair You Can Count On", sub="Repair, installation, openers and maintenance for Twin Cities homes. Fast scheduling and fair pricing.", small=False,
- hero_extra=f'<a class="btn" href="tel:{PHONE_TEL}">Call {PHONE}</a> <a class="btn alt" href="booking.html">Book Online</a>', trust=True,
+ h1="Summit Garage Doors: Expert Garage Door Repair Services", sub="Reliable garage door solutions in Eagan, MN, available every day, all day, specifically designed to keep your garage door in Eagan running smoothly.", small=False, herocls=" light",
+ hero_pre=f'<img class="herologo" src="assets/logo.svg" alt="Snowy Summit Garage Door. Every day, all day."><p class="pre"><a href="tel:{PHONE_TEL}" style="color:inherit">{PHONE}</a></p>',
+ hero_extra='<a class="btn alt" href="booking.html">Get a Free Quote</a>', trust=True,
  schema=LOCAL_SCHEMA+'</script><script type="application/ld+json">'+faq_schema())
 page("about.html", f"About Us | {NAME}", "Learn about Snowy Summit Garage Door Repair, our mission and our commitment to Twin Cities homeowners.",
  sec("<h2>Our Story</h2><p>[PLACEHOLDER: Add your company background, years in business and mission here.]</p><p>Snowy Summit Garage Door Repair helps Twin Cities homeowners keep their garage doors safe, quiet and working every day of the year.</p>")+
@@ -298,7 +315,7 @@ page("service-areas/index.html", f"Service Areas | {NAME}", "We serve Minneapoli
 for c in CITIES:
     page(f"service-areas/{slug(c)}.html", f"Garage Door Repair in {c}, MN | {NAME}",
      f"Garage door repair, installation, opener service and maintenance in {c}, MN. Call Snowy Summit for a free quote.",
-     sec(f"<h2>Garage Door Service in {c}, MN</h2><p>Snowy Summit Garage Door Repair serves {c} homeowners with dependable repair, installation and maintenance. [PLACEHOLDER: add local details, neighborhoods and landmarks to make this page unique.]</p><h3>Services in {c}</h3>"+
+     sec(f"<h2>Garage Door Service in {c}, MN</h2><p>{INTRO(c)}</p><h3>Services in {c}</h3>"+
          '<ul class="check">'+"".join(f'<li><a href="../services/{s[0]}.html">{s[1]}</a></li>' for s in SERVICES)+"</ul>")+
      sec(faq([(f"Do you offer garage door repair in {c}, MN?",f"Yes. Snowy Summit serves {c} and nearby communities with repair, installation, opener service and maintenance."),(f"How fast can a technician reach {c}?","[PLACEHOLDER: add typical response time for this city]"),(f"What does garage door spring repair cost in {c}?","We quote a clear price before work begins. Call for an estimate.")]),True)+
      sec(f"<h2>Nearby areas we serve</h2><p>"+", ".join(f'<a href="{slug(o)}.html">Garage door repair in {o}</a>' for o in CITIES if o!=c)+"</p><p><a class='btn' href='../contact.html'>Get a quote in "+c+"</a></p>"),
@@ -318,7 +335,7 @@ page("contact.html", f"Contact & Free Quote | {NAME}", "Contact Snowy Summit Gar
 <label>City<select name="city">{"".join(f"<option>{c}</option>" for c in CITIES)}<option>Other</option></select></label>
 <label>Service<select name="service">{"".join(f"<option>{s[1]}</option>" for s in SERVICES)}</select></label>
 <label>Describe the problem<textarea name="message" rows="4"></textarea></label><button class="btn" type="submit">Send Request</button></form></div>
-<div><h2>Call or Email</h2><p><strong><a href="tel:{PHONE_TEL}">{PHONE}</a></strong><br><a href="mailto:{EMAIL}">{EMAIL}</a></p><p>Hours: [PLACEHOLDER]</p><p>Address: [PLACEHOLDER]</p>
+<div><h2>Call or Email</h2><p><strong><a href="tel:{PHONE_TEL}">{PHONE}</a></strong><br><a href="mailto:{EMAIL}">{EMAIL}</a></p><p>Hours: Open every day, all day.</p><p>Based in Eagan, MN.</p>
 {MAP}</div></div><p class="msg" role="status">Thanks! We received your request and will call you shortly.</p>'''),
  h1="Contact Us", sub="Call, request a quote, or book a service visit.", crumbs=[("Home","index.html")])
 
@@ -367,7 +384,10 @@ for sl,t,d,pts in POSTS:
 open(os.path.join(OUT,"assets/style.css"),"w").write(CSS)
 open(os.path.join(OUT,"assets/og-image.svg"),"w").write('<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="#12324f"/><text x="600" y="290" font-family="Arial" font-size="72" font-weight="700" fill="#fff" text-anchor="middle">Snowy Summit</text><text x="600" y="380" font-family="Arial" font-size="48" fill="#f2a900" text-anchor="middle">Garage Door Repair</text><text x="600" y="460" font-family="Arial" font-size="30" fill="#cfe3f3" text-anchor="middle">Minneapolis - St. Paul, MN</text></svg>')
 open(os.path.join(OUT,"assets/favicon.svg"),"w").write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#12324f"/><path d="M8 52 32 16l24 36z" fill="#fff"/><rect x="22" y="36" width="20" height="16" fill="#f2a900"/></svg>')
-open(os.path.join(OUT,"assets/site.js"),"w").write(JS)
+MARK = '<g><path d="M10 100V38L50 8l40 30v62z" fill="none" stroke="#2f67a1" stroke-width="9"/><path d="M20 30 50 4l30 26-10 8-20-18-20 18z" fill="#2f67a1"/><path d="M38 20l8-8 6 7-5 4-4-4z" fill="#fff"/><g fill="#555"><rect x="22" y="40" width="26" height="26" rx="1"/><rect x="52" y="40" width="26" height="26" rx="1"/><rect x="22" y="70" width="26" height="26" rx="1"/><rect x="52" y="70" width="26" height="26" rx="1"/></g><g fill="#fff" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="22" text-anchor="middle"><text x="35" y="61">S</text><text x="65" y="61">S</text><text x="35" y="91">G</text><text x="65" y="91">D</text></g></g>'
+open(os.path.join(OUT,"assets/logo-mark.svg"),"w").write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 104"><rect x="-10" y="-10" width="120" height="124" fill="#fff" rx="6"/>'+MARK+'</svg>')
+open(os.path.join(OUT,"assets/logo.svg"),"w").write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 330"><rect width="360" height="330" fill="#fff"/><g transform="translate(110 10) scale(1.4)">'+MARK+'</g><text x="180" y="215" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="38" fill="#2f67a1" text-anchor="middle">SNOWY SUMMIT</text><line x1="18" y1="245" x2="62" y2="245" stroke="#444" stroke-width="3"/><line x1="298" y1="245" x2="342" y2="245" stroke="#444" stroke-width="3"/><text x="180" y="253" font-family="Arial,sans-serif" font-weight="700" font-size="21" fill="#444" text-anchor="middle">GARAGE DOOR</text><text x="180" y="290" font-family="Arial,sans-serif" font-weight="700" font-size="19" fill="#2f67a1" text-anchor="middle" letter-spacing="4">EVERY DAY , ALL DAY</text></svg>')
+open(os.path.join(OUT,"assets/site.js"),"w").write(JS.replace("__PHONE__",PHONE).replace("__TEL__",PHONE_TEL))
 sm = ['<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
 for pth in pages:
     pr = "1.0" if pth=="index.html" else "0.8" if pth.startswith(("services/","service-areas/")) or pth in("contact.html","booking.html") else "0.6"

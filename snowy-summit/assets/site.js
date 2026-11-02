@@ -11,6 +11,8 @@ var md=d.querySelector('[data-mindate]');if(md){md.min=new Date().toISOString().
 d.querySelectorAll('form[data-ajax]').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();var btn=f.querySelector('button');btn.disabled=true;btn.textContent='Sending...';
 fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}}).then(function(r){if(!r.ok)throw 0;f.reset();var m=d.querySelector('.msg');m.classList.add('show');m.scrollIntoView({behavior:'smooth',block:'center'})}).catch(function(){alert('Sorry, something went wrong. Please call us instead.')}).finally(function(){btn.disabled=false;btn.textContent='Send Request'})})});
 
+var ch=d.createElement('div');ch.className='chat';ch.innerHTML='<div class="chat-p" role="dialog" aria-label="Contact us"><header>Questions? We\'re here every day, all day.</header><div><a class="btn" href="tel:+16515009929">Call (651) 500-9929</a><a class="btn alt" style="color:#161616!important" href="'+(d.querySelector('link[rel=icon]').getAttribute('href').replace('assets/favicon.svg','booking.html'))+'">Book online</a></div></div><button class="chat-b" type="button" aria-label="Open contact options" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.2A8 8 0 1 1 21 12z"/></svg></button>';d.body.appendChild(ch);
+ch.querySelector('.chat-b').addEventListener('click',function(){var o=ch.classList.toggle('open');this.setAttribute('aria-expanded',o)});
 var W=d.getElementById('wiz');
 if(W){(function(){
 var step=1,titles=['How can we help you?','When do you need service?',"Let's get you into our system.","You're all set!"];
