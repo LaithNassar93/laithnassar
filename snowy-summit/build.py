@@ -66,24 +66,57 @@ form{display:grid;gap:14px;max-width:560px}label{font-weight:600;display:grid;ga
 input,select,textarea{font:inherit;padding:10px;border:1px solid #b9c9d6;border-radius:8px;width:100%}
 .coupon{border:3px dashed var(--accent);border-radius:12px;padding:22px;background:#fffbea}.coupon strong{font-size:1.6rem;color:var(--navy)}
 .ph{background:repeating-linear-gradient(45deg,#dce9f3,#dce9f3 10px,#eaf4fb 10px,#eaf4fb 20px);height:180px;border-radius:12px;display:grid;place-items:center;color:var(--muted);font-weight:600}
+.skip{position:absolute;left:-999px;top:0;background:#fff;color:#000;padding:10px 16px;z-index:100}.skip:focus{left:8px;top:8px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.menu-btn{display:none;background:transparent;border:2px solid #fff;color:#fff;border-radius:8px;padding:8px 14px;font:inherit;font-weight:700;cursor:pointer}
+.trust{background:#fff;border-bottom:1px solid #d8e4ee;padding:18px 0}.trust ul{list-style:none;margin:0;padding:0;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));text-align:center;font-weight:700;color:var(--navy)}
+.trust li span{display:block;font-size:1.6rem}
+.steps{counter-reset:s;display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.steps div{background:#fff;border-radius:12px;padding:22px;border:1px solid #d8e4ee}
+.steps div:before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;margin-bottom:10px}
+.card{transition:transform .2s,box-shadow .2s}.card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(18,50,79,.12)}
+details{background:#fff;border:1px solid #d8e4ee;border-radius:10px;padding:14px 18px;margin:10px 0}summary{cursor:pointer;font-weight:700;color:var(--navy)}
+.quote{font-style:italic}.stars{color:var(--accent);letter-spacing:2px}
+.js .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}.js .reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;transition:none}.card{transition:none}}
+.gal{border:0;padding:0;cursor:zoom-in;width:100%;font:inherit}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;place-items:center;z-index:50;padding:20px}.lb.open{display:grid}.lb div{background:#fff;border-radius:12px;padding:20px;max-width:640px;width:100%;text-align:center}
+.map{width:100%;height:320px;border:0;border-radius:12px}
+.msg{padding:12px 16px;border-radius:8px;background:#e6f6ea;border:1px solid #9bd3a8;display:none}.msg.show{display:block}
+input:invalid:not(:placeholder-shown){border-color:#c0392b}
+.row2{display:grid;gap:14px;grid-template-columns:1fr 1fr}@media(max-width:560px){.row2{grid-template-columns:1fr}}
+@media(max-width:900px){.menu-btn{display:block}nav{display:none;width:100%}nav.open{display:block}nav ul{flex-direction:column;align-items:stretch}nav li ul{display:flex}}
 footer{background:#0c2338;color:#cfe0ee;padding:44px 0 24px;font-size:.95rem}footer a{color:#cfe0ee}footer h4{color:#fff;margin:0 0 8px}
 footer .grid{margin-bottom:20px}footer ul{list-style:none;padding:0;margin:0}.fine{border-top:1px solid #234;padding-top:16px;font-size:.85rem}
 .callbar{display:none}@media(max-width:700px){.callbar{display:block;position:fixed;bottom:0;left:0;right:0;background:var(--accent);text-align:center;padding:14px;font-weight:800;z-index:20}.callbar a{color:#1b1b1b;text-decoration:none}body{padding-bottom:52px}nav li ul{position:static;box-shadow:none;display:flex;padding-left:12px}}
 """
 
+JS = r"""(function(){
+var d=document;
+var mb=d.querySelector('.menu-btn'),nav=d.getElementById('nav');
+if(mb)mb.addEventListener('click',function(){var o=nav.classList.toggle('open');mb.setAttribute('aria-expanded',o)});
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.1});d.querySelectorAll('.reveal').forEach(function(el){io.observe(el)})}else{d.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')})}
+var lb=d.querySelector('.lb');
+if(lb){d.querySelectorAll('[data-lb]').forEach(function(b){b.addEventListener('click',function(){lb.querySelector('.lbt').textContent=b.dataset.lb;lb.classList.add('open');lb.querySelector('[data-close]').focus()})});
+lb.addEventListener('click',function(e){if(e.target===lb||e.target.hasAttribute('data-close'))lb.classList.remove('open')});
+d.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('open')})}
+var md=d.querySelector('[data-mindate]');if(md){md.min=new Date().toISOString().split('T')[0]}
+d.querySelectorAll('form[data-ajax]').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();var btn=f.querySelector('button');btn.disabled=true;btn.textContent='Sending...';
+fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}}).then(function(r){if(!r.ok)throw 0;f.reset();var m=d.querySelector('.msg');m.classList.add('show');m.scrollIntoView({behavior:'smooth',block:'center'})}).catch(function(){alert('Sorry, something went wrong. Please call us instead.')}).finally(function(){btn.disabled=false;btn.textContent='Send Request'})})});
+})();"""
 def esc(s): return html.escape(s, quote=True)
 
 def nav(depth):
     p = "../"*depth
     svc = "".join(f'<li><a href="{p}services/{s[0]}.html">{s[1]}</a></li>' for s in SERVICES)
     area = "".join(f'<li><a href="{p}service-areas/{slug(c)}.html">{c}</a></li>' for c in CITIES)
-    return f'''<nav aria-label="Main"><ul>
+    return f'''<button class="menu-btn" aria-expanded="false" aria-controls="nav">&#9776; Menu</button><nav id="nav" aria-label="Main"><ul>
 <li><a href="{p}index.html">Home</a></li>
 <li><a href="{p}about.html">About</a><ul><li><a href="{p}why-choose-us.html">Why Choose Us</a></li><li><a href="{p}meet-the-team.html">Meet the Team</a></li><li><a href="{p}gallery.html">Gallery</a></li><li><a href="{p}blog/index.html">Blog</a></li></ul></li>
 <li><a href="{p}services/index.html">Services</a><ul>{svc}</ul></li>
 <li><a href="{p}service-areas/index.html">Service Areas</a><ul>{area}</ul></li>
 <li><a href="{p}coupons.html">Coupons</a></li>
 <li><a href="{p}contact.html">Contact</a></li>
+<li><a href="{p}booking.html">Book Online</a></li>
 <li><a class="btn" href="tel:{PHONE_TEL}">{PHONE}</a></li></ul></nav>'''
 
 def footer(depth):
@@ -100,36 +133,54 @@ def footer(depth):
 LOCAL_SCHEMA = f'''{{"@context":"https://schema.org","@type":"GarageDoorContractor","name":"{NAME}","url":"{DOMAIN}/","telephone":"{PHONE}","email":"{EMAIL}","areaServed":{[c for c in CITIES]!r},"address":{{"@type":"PostalAddress","addressRegion":"MN","addressCountry":"US"}}}}'''.replace("'",'"')
 
 pages = []  # (path, priority)
-def page(path, title, desc, body, h1=None, sub=None, crumbs=None, schema=None, hero=True, small=True):
+def page(path, title, desc, body, h1=None, sub=None, crumbs=None, schema=None, hero=True, small=True, hero_extra="", trust=False):
     depth = path.count("/")
+    hero_extra_after = TRUST if trust else ""
     p = "../"*depth
     cr = ""
     if crumbs:
         cr = '<div class="crumbs">'+" / ".join(f'<a href="{p}{u}">{esc(t)}</a>' for t,u in crumbs)+'</div>'
     heroh = ""
     if hero and h1:
-        heroh = f'<div class="hero{" small" if small else ""}"><div class="wrap">{cr}<h1>{esc(h1)}</h1>{"<p>"+esc(sub)+"</p>" if sub else ""}</div></div>'
+        heroh = f'<div class="hero{" small" if small else ""}"><div class="wrap">{cr}<h1>{esc(h1)}</h1>{"<p>"+esc(sub)+"</p>" if sub else ""}{hero_extra}</div></div>{hero_extra_after}'
     sch = f'<script type="application/ld+json">{schema}</script>' if schema else ""
+    bc = ""
+    if crumbs:
+        items = [(t,u) for t,u in crumbs]+[(h1 or title, path)]
+        li = ",".join(f'{{"@type":"ListItem","position":{i+1},"name":"{t}","item":"{DOMAIN}/{u}"}}' for i,(t,u) in enumerate(items))
+        bc = f'<script type="application/ld+json">{{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{li}]}}</script>'
+
     doc = f'''<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{esc(title)}</title><meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{DOMAIN}/{path}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}"><meta property="og:type" content="website">
-<link rel="stylesheet" href="{p}assets/style.css">{sch}
+<link rel="icon" href="{p}assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="{p}assets/style.css">{sch}{bc}
 <!-- TODO: add Google Analytics / Search Console verification tag here -->
-</head><body><header class="site"><div class="wrap"><a class="logo" href="{p}index.html">Snowy <span>Summit</span> Garage Door</a>{nav(depth)}</div></header>
-<main>{heroh}{body}
+</head><body><script>document.documentElement.className+=" js"</script><a class="skip" href="#main">Skip to content</a><header class="site"><div class="wrap"><a class="logo" href="{p}index.html">Snowy <span>Summit</span> Garage Door</a>{nav(depth)}</div></header>
+<main id="main">{heroh}{body}
 <section class="cta"><div class="wrap"><h2>Need garage door help today?</h2><p>Call us or request a free quote.</p><a class="btn" href="tel:{PHONE_TEL}">Call {PHONE}</a> <a class="btn alt" href="{p}contact.html">Request a Quote</a></div></section></main>
-{footer(depth)}</body></html>'''
+{footer(depth)}<script src="{p}assets/site.js" defer></script></body></html>'''
     full = os.path.join(OUT, path)
     os.makedirs(os.path.dirname(full), exist_ok=True)
     open(full,"w").write(doc)
     pages.append(path)
 
-def sec(inner, alt=False): return f'<section class="{"alt" if alt else ""}"><div class="wrap">{inner}</div></section>'
+def sec(inner, alt=False): return f'<section class="reveal {"alt" if alt else ""}"><div class="wrap">{inner}</div></section>'
 def lst(items): return '<ul class="check">'+"".join(f"<li>{esc(i)}</li>" for i in items)+"</ul>"
 def cards(items, p=""):
     return '<div class="grid">'+"".join(f'<div class="card"><h3>{esc(t)}</h3><p>{esc(d)}</p><a href="{p}{u}">Learn more &rarr;</a></div>' for t,d,u in items)+"</div>"
 
+TRUST = '<div class="trust"><div class="wrap"><ul><li><span>&#9889;</span>Fast scheduling</li><li><span>&#128176;</span>Upfront pricing</li><li><span>&#128737;</span>Safety-tested repairs</li><li><span>&#128205;</span>Serving 6 Twin Cities areas</li></ul></div></div>'
+FAQS = [("Do you offer same-day garage door repair?","Often, yes. Call us and we will schedule the soonest available visit. [PLACEHOLDER: confirm your policy]"),
+ ("How much does garage door repair cost?","Cost depends on the part and the door. We give a clear quote before any work begins."),
+ ("How long does a new garage door installation take?","Most installations take a few hours to a day. [PLACEHOLDER: confirm]"),
+ ("Which areas do you serve?","Minneapolis, St. Paul, Woodbury, Eagan, Lakeville and Eden Prairie, MN.")]
+def faq(items=FAQS):
+    return "<h2>Frequently Asked Questions</h2>"+"".join(f"<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>" for q,a in items)
+def faq_schema(items=FAQS):
+    e=",".join(f'{{"@type":"Question","name":"{q}","acceptedAnswer":{{"@type":"Answer","text":"{a}"}}}}' for q,a in items)
+    return f'{{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{e}]}}'
+MAP = '<iframe class="map" title="Service area map" loading="lazy" src="https://www.google.com/maps?q=Minneapolis,+MN&output=embed"></iframe>'
 svc_cards = [(s[1],s[2],f"services/{s[0]}.html") for s in SERVICES]
 area_cards = [(c,f"Garage door repair, installation and maintenance in {c}, MN.",f"service-areas/{slug(c)}.html") for c in CITIES]
 
@@ -138,13 +189,13 @@ page("index.html", f"Garage Door Repair & Installation in Minneapolis-St. Paul, 
  "Snowy Summit Garage Door Repair: garage door repair, installation, openers and maintenance across the Twin Cities. Call for a free quote.",
  sec("<h2>Our Services</h2>"+cards(svc_cards))+
  sec("<h2>Why homeowners call us</h2>"+lst(["Upfront, honest pricing","Technicians who explain the problem before the repair","Repairs, installs and openers from one local team","Serving Minneapolis, St. Paul, Woodbury, Eagan, Lakeville and Eden Prairie"])+'<p><a href="why-choose-us.html">See why choose us &rarr;</a></p>',True)+
- sec("<h2>Service Areas</h2>"+cards(area_cards)),
- h1="Garage Door Repair You Can Count On", sub="Repair, installation, openers and maintenance for Twin Cities homes. Fast scheduling and fair pricing.", small=False, schema=LOCAL_SCHEMA)
-# fix hero CTA on home
-f=os.path.join(OUT,"index.html"); t=open(f).read()
-t=t.replace("</p></div></div><section",f'</p><a class="btn" href="tel:{PHONE_TEL}">Call {PHONE}</a> <a class="btn alt" href="contact.html">Free Quote</a></div></div><section',1)
-open(f,"w").write(t)
-
+ sec("<h2>How it works</h2><div class='steps'><div><h3>Call or book</h3><p>Phone us or book online in under a minute.</p></div><div><h3>Get a clear quote</h3><p>We diagnose the problem and quote before starting.</p></div><div><h3>Fixed right</h3><p>We repair, test for safety and clean up.</p></div></div>",True)+
+ sec("<h2>What customers say</h2><div class='grid'>"+"".join("<div class='card'><div class='stars'>&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class='quote'>&ldquo;[PLACEHOLDER: add a real customer review here.]&rdquo;</p><strong>[Customer name], [City]</strong></div>" for _ in range(3))+"</div>")+
+ sec(faq(),True)+
+ sec("<h2>Service Areas</h2>"+cards(area_cards)+"<br>"+MAP),
+ h1="Garage Door Repair You Can Count On", sub="Repair, installation, openers and maintenance for Twin Cities homes. Fast scheduling and fair pricing.", small=False,
+ hero_extra=f'<a class="btn" href="tel:{PHONE_TEL}">Call {PHONE}</a> <a class="btn alt" href="booking.html">Book Online</a>', trust=True,
+ schema=LOCAL_SCHEMA+'</script><script type="application/ld+json">'+faq_schema())
 page("about.html", f"About Us | {NAME}", "Learn about Snowy Summit Garage Door Repair, our mission and our commitment to Twin Cities homeowners.",
  sec("<h2>Our Story</h2><p>[PLACEHOLDER: Add your company background, years in business and mission here.]</p><p>Snowy Summit Garage Door Repair helps Twin Cities homeowners keep their garage doors safe, quiet and working every day of the year.</p>")+
  sec(cards([("Why Choose Us","What sets us apart.","why-choose-us.html"),("Meet the Team","The people behind the work.","meet-the-team.html"),("Gallery","Photos of our recent jobs.","gallery.html"),("Blog","Tips and guides.","blog/index.html")]),True),
@@ -156,7 +207,7 @@ page("meet-the-team.html", f"Meet the Team | {NAME}", "Meet the Snowy Summit Gar
  sec('<div class="grid">'+"".join(f'<div class="card"><div class="ph">Photo</div><h3>[Name {i}]</h3><p>[Role / short bio]</p></div>' for i in (1,2,3))+"</div>"),
  h1="Meet the Team", crumbs=[("Home","index.html"),("About","about.html")])
 page("gallery.html", f"Photo Gallery | {NAME}", "Photos of garage door repairs and installations by Snowy Summit Garage Door Repair.",
- sec('<p>[PLACEHOLDER: replace these boxes with your job photos. Use descriptive alt text.]</p><div class="grid">'+"".join('<div class="ph">Job photo</div>' for _ in range(9))+"</div>"),
+ sec('<p>[PLACEHOLDER: replace these boxes with your job photos (use &lt;img&gt; with descriptive alt text). Click a photo to enlarge.]</p><div class="grid">'+"".join(f'<button class="gal ph" data-lb="Job photo {i}" type="button">Job photo {i}</button>' for i in range(1,10))+'</div><div class="lb" role="dialog" aria-modal="true" aria-label="Photo preview"><div><p class="lbt"></p><button class="btn" type="button" data-close>Close</button></div></div>'),
  h1="Gallery", crumbs=[("Home","index.html"),("About","about.html")])
 
 # Services
@@ -167,6 +218,7 @@ for sl,t,d,items in SERVICES:
     page(f"services/{sl}.html", f"{t} in Minneapolis-St. Paul, MN | {NAME}", d,
      sec(f"<h2>{esc(t)}</h2><p>{esc(d)}</p><h3>What's included</h3>"+lst(items)+f'<p><a class="btn" href="../contact.html">Request a Quote</a></p>')+
      sec("<h2>Related services</h2>"+cards(others),True)+
+     sec(faq([(f"How quickly can you handle {t.lower()}?","Call us and we will schedule the soonest available visit. [PLACEHOLDER]"),("Do you give a quote first?","Yes. You approve the price before work begins.")]),True)+
      sec("<h2>Where we work</h2><p>"+", ".join(f'<a href="../service-areas/{slug(c)}.html">{c}</a>' for c in CITIES)+"</p>"),
      h1=t, sub=d, crumbs=[("Home","index.html"),("Services","services/index.html")],
      schema=f'{{"@context":"https://schema.org","@type":"Service","name":"{t}","provider":{{"@type":"GarageDoorContractor","name":"{NAME}"}},"areaServed":"Minneapolis-St. Paul, MN"}}')
@@ -190,14 +242,31 @@ page("coupons.html", f"Garage Door Coupons & Specials | {NAME}", "Save on garage
 # Contact
 page("contact.html", f"Contact & Free Quote | {NAME}", "Contact Snowy Summit Garage Door Repair for a free quote or to book a service call.",
  sec(f'''<div class="grid"><div><h2>Request a Free Quote</h2>
-<form action="https://formsubmit.co/{EMAIL}" method="POST"><!-- PLACEHOLDER form handler: swap for your form service -->
+<form data-ajax action="https://formsubmit.co/ajax/{EMAIL}" method="POST"><!-- PLACEHOLDER form handler: swap for your form service -->
 <label>Name<input name="name" required></label><label>Phone<input name="phone" type="tel" required></label><label>Email<input name="email" type="email"></label>
 <label>City<select name="city">{"".join(f"<option>{c}</option>" for c in CITIES)}<option>Other</option></select></label>
 <label>Service<select name="service">{"".join(f"<option>{s[1]}</option>" for s in SERVICES)}</select></label>
 <label>Describe the problem<textarea name="message" rows="4"></textarea></label><button class="btn" type="submit">Send Request</button></form></div>
 <div><h2>Call or Email</h2><p><strong><a href="tel:{PHONE_TEL}">{PHONE}</a></strong><br><a href="mailto:{EMAIL}">{EMAIL}</a></p><p>Hours: [PLACEHOLDER]</p><p>Address: [PLACEHOLDER]</p>
-<div class="ph" style="height:260px">[Embed Google Map here]</div></div></div>'''),
+{MAP}</div></div><p class="msg" role="status">Thanks! We received your request and will call you shortly.</p>'''),
  h1="Contact Us", sub="Call, request a quote, or book a service visit.", crumbs=[("Home","index.html")])
+
+page("booking.html", f"Book a Service Appointment | {NAME}", "Book a garage door repair, installation or maintenance appointment online with Snowy Summit.",
+ sec(f'''<div class="grid"><div><h2>Book an Appointment</h2>
+<form data-ajax action="https://formsubmit.co/ajax/{EMAIL}" method="POST"><!-- PLACEHOLDER form handler -->
+<div class="row2"><label>Name<input name="name" required autocomplete="name"></label><label>Phone<input name="phone" type="tel" required autocomplete="tel"></label></div>
+<label>Email<input name="email" type="email" autocomplete="email"></label>
+<label>Service address<input name="address" required autocomplete="street-address"></label>
+<div class="row2"><label>Service<select name="service">{"".join(f"<option>{s[1]}</option>" for s in SERVICES)}</select></label>
+<label>City<select name="city">{"".join(f"<option>{c}</option>" for c in CITIES)}<option>Other</option></select></label></div>
+<div class="row2"><label>Preferred date<input name="date" type="date" data-mindate required></label>
+<label>Time window<select name="window"><option>Morning (8-12)</option><option>Afternoon (12-4)</option><option>Evening (4-7)</option></select></label></div>
+<label>Notes<textarea name="message" rows="3"></textarea></label><button class="btn" type="submit">Request Appointment</button></form>
+<p class="msg" role="status">Thanks! We received your booking request and will confirm by phone.</p></div>
+<div><h2>Need it now?</h2><p>For urgent repairs call <a href="tel:{PHONE_TEL}"><strong>{PHONE}</strong></a>.</p>{MAP}</div></div>'''),
+ h1="Book Online", sub="Pick a day and time window. We'll confirm by phone.", crumbs=[("Home","index.html")])
+page("404.html", f"Page Not Found | {NAME}", "Page not found.", sec('<p><a class="btn" href="index.html">Back to home</a> <a class="btn alt" href="contact.html">Contact us</a></p>'), h1="Page not found")
+pages.remove("404.html")
 
 # Extra SEO pages
 for sl,t,d,pts in EXTRA:
@@ -210,6 +279,8 @@ for sl,t,d,pts in POSTS:
     page(f"blog/{sl}.html", f"{t} | {NAME}", d, sec(f"<p>{esc(d)}</p>"+lst(pts)+'<p><a href="../contact.html">Need help? Request a quote.</a></p>'), h1=t, crumbs=[("Home","index.html"),("Blog","blog/index.html")])
 
 open(os.path.join(OUT,"assets/style.css"),"w").write(CSS)
+open(os.path.join(OUT,"assets/favicon.svg"),"w").write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#12324f"/><path d="M8 52 32 16l24 36z" fill="#fff"/><rect x="22" y="36" width="20" height="16" fill="#f2a900"/></svg>')
+open(os.path.join(OUT,"assets/site.js"),"w").write(JS)
 sm = ['<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
 for pth in pages: sm.append(f"<url><loc>{DOMAIN}/{pth if pth!='index.html' else ''}</loc></url>")
 sm.append("</urlset>")
