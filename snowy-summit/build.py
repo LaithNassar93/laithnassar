@@ -6,6 +6,10 @@ DOMAIN = "https://snowysummitgaragedoor.com"
 NAME = "Snowy Summit Garage Door Repair"
 PHONE = "(612) 555-0100"          # PLACEHOLDER - replace
 PHONE_TEL = "+16125550100"        # PLACEHOLDER - replace
+GA_ID = ""            # e.g. "G-XXXXXXXXXX" - Google Analytics 4 measurement ID
+GSC_TOKEN = ""        # Google Search Console HTML-tag verification code
+BING_TOKEN = ""       # Bing Webmaster Tools verification code
+LASTMOD = "2026-11-02"
 EMAIL = "info@snowysummitgaragedoor.com"  # PLACEHOLDER - replace
 
 SERVICES = [
@@ -130,7 +134,13 @@ def footer(depth):
 </div><div class="fine">&copy; 2026 {NAME}. All rights reserved.</div></div></footer>
 <div class="callbar"><a href="tel:{PHONE_TEL}">Call now: {PHONE}</a></div>'''
 
-LOCAL_SCHEMA = f'''{{"@context":"https://schema.org","@type":"GarageDoorContractor","name":"{NAME}","url":"{DOMAIN}/","telephone":"{PHONE}","email":"{EMAIL}","areaServed":{[c for c in CITIES]!r},"address":{{"@type":"PostalAddress","addressRegion":"MN","addressCountry":"US"}}}}'''.replace("'",'"')
+import json
+LOCAL_SCHEMA = json.dumps({"@context":"https://schema.org","@type":"GarageDoorContractor","@id":DOMAIN+"/#business","name":NAME,"url":DOMAIN+"/","telephone":PHONE,"email":EMAIL,"image":DOMAIN+"/assets/og-image.svg","priceRange":"$$",
+ "address":{"@type":"PostalAddress","streetAddress":"[PLACEHOLDER]","addressLocality":"Minneapolis","addressRegion":"MN","postalCode":"[PLACEHOLDER]","addressCountry":"US"},
+ "areaServed":[{"@type":"City","name":c+", MN"} for c in CITIES],
+ "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"08:00","closes":"18:00"}],
+ "hasOfferCatalog":{"@type":"OfferCatalog","name":"Garage door services","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":x[1]}} for x in SERVICES]},
+ "sameAs":[]})
 
 pages = []  # (path, priority)
 def page(path, title, desc, body, h1=None, sub=None, crumbs=None, schema=None, hero=True, small=True, hero_extra="", trust=False):
@@ -144,6 +154,8 @@ def page(path, title, desc, body, h1=None, sub=None, crumbs=None, schema=None, h
     if hero and h1:
         heroh = f'<div class="hero{" small" if small else ""}"><div class="wrap">{cr}<h1>{esc(h1)}</h1>{"<p>"+esc(sub)+"</p>" if sub else ""}{hero_extra}</div></div>{hero_extra_after}'
     sch = f'<script type="application/ld+json">{schema}</script>' if schema else ""
+    verif = (f'<meta name="google-site-verification" content="{GSC_TOKEN}">' if GSC_TOKEN else "")+(f'<meta name="msvalidate.01" content="{BING_TOKEN}">' if BING_TOKEN else "")
+    ga = (f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag("js",new Date());gtag("config","{GA_ID}")</script>' if GA_ID else "")
     bc = ""
     if crumbs:
         items = [(t,u) for t,u in crumbs]+[(h1 or title, path)]
@@ -153,8 +165,8 @@ def page(path, title, desc, body, h1=None, sub=None, crumbs=None, schema=None, h
     doc = f'''<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{esc(title)}</title><meta name="description" content="{esc(desc)}">
-<link rel="canonical" href="{DOMAIN}/{path}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}"><meta property="og:type" content="website">
-<link rel="icon" href="{p}assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="{p}assets/style.css">{sch}{bc}
+<link rel="canonical" href="{DOMAIN}/{path}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}"><meta property="og:type" content="website"><meta property="og:url" content="{DOMAIN}/{path}"><meta property="og:site_name" content="{NAME}"><meta property="og:locale" content="en_US"><meta property="og:image" content="{DOMAIN}/assets/og-image.svg"><meta name="twitter:card" content="summary_large_image"><meta name="robots" content="index,follow,max-image-preview:large">{verif}
+<link rel="icon" href="{p}assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="{p}assets/style.css">{sch}{bc}{ga}
 <!-- TODO: add Google Analytics / Search Console verification tag here -->
 </head><body><script>document.documentElement.className+=" js"</script><a class="skip" href="#main">Skip to content</a><header class="site"><div class="wrap"><a class="logo" href="{p}index.html">Snowy <span>Summit</span> Garage Door</a>{nav(depth)}</div></header>
 <main id="main">{heroh}{body}
@@ -231,8 +243,10 @@ for c in CITIES:
      f"Garage door repair, installation, opener service and maintenance in {c}, MN. Call Snowy Summit for a free quote.",
      sec(f"<h2>Garage Door Service in {c}, MN</h2><p>Snowy Summit Garage Door Repair serves {c} homeowners with dependable repair, installation and maintenance. [PLACEHOLDER: add local details, neighborhoods and landmarks to make this page unique.]</p><h3>Services in {c}</h3>"+
          '<ul class="check">'+"".join(f'<li><a href="../services/{s[0]}.html">{s[1]}</a></li>' for s in SERVICES)+"</ul>")+
-     sec(f"<h2>Get a quote in {c}</h2><p><a class='btn' href='../contact.html'>Request a Quote</a></p>",True),
-     h1=f"Garage Door Repair in {c}, MN", sub=f"Local garage door service for {c} homes.", crumbs=[("Home","index.html"),("Service Areas","service-areas/index.html")])
+     sec(faq([(f"Do you offer garage door repair in {c}, MN?",f"Yes. Snowy Summit serves {c} and nearby communities with repair, installation, opener service and maintenance."),(f"How fast can a technician reach {c}?","[PLACEHOLDER: add typical response time for this city]"),(f"What does garage door spring repair cost in {c}?","We quote a clear price before work begins. Call for an estimate.")]),True)+
+     sec(f"<h2>Nearby areas we serve</h2><p>"+", ".join(f'<a href="{slug(o)}.html">Garage door repair in {o}</a>' for o in CITIES if o!=c)+"</p><p><a class='btn' href='../contact.html'>Get a quote in "+c+"</a></p>"),
+     h1=f"Garage Door Repair in {c}, MN", sub=f"Local garage door service for {c} homes.", crumbs=[("Home","index.html"),("Service Areas","service-areas/index.html")],
+     schema=json.dumps({"@context":"https://schema.org","@type":"GarageDoorContractor","name":NAME,"url":DOMAIN+"/","telephone":PHONE,"areaServed":{"@type":"City","name":c+", MN"}})+'</script><script type="application/ld+json">'+faq_schema([(f"Do you offer garage door repair in {c}, MN?",f"Yes. Snowy Summit serves {c} and nearby communities with repair, installation, opener service and maintenance."),(f"How fast can a technician reach {c}?","[PLACEHOLDER: add typical response time for this city]"),(f"What does garage door spring repair cost in {c}?","We quote a clear price before work begins. Call for an estimate.")]))
 
 # Coupons
 page("coupons.html", f"Garage Door Coupons & Specials | {NAME}", "Save on garage door repair, installation and maintenance with Snowy Summit coupons.",
@@ -279,10 +293,12 @@ for sl,t,d,pts in POSTS:
     page(f"blog/{sl}.html", f"{t} | {NAME}", d, sec(f"<p>{esc(d)}</p>"+lst(pts)+'<p><a href="../contact.html">Need help? Request a quote.</a></p>'), h1=t, crumbs=[("Home","index.html"),("Blog","blog/index.html")])
 
 open(os.path.join(OUT,"assets/style.css"),"w").write(CSS)
+open(os.path.join(OUT,"assets/og-image.svg"),"w").write('<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><rect width="1200" height="630" fill="#12324f"/><text x="600" y="290" font-family="Arial" font-size="72" font-weight="700" fill="#fff" text-anchor="middle">Snowy Summit</text><text x="600" y="380" font-family="Arial" font-size="48" fill="#f2a900" text-anchor="middle">Garage Door Repair</text><text x="600" y="460" font-family="Arial" font-size="30" fill="#cfe3f3" text-anchor="middle">Minneapolis - St. Paul, MN</text></svg>')
 open(os.path.join(OUT,"assets/favicon.svg"),"w").write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#12324f"/><path d="M8 52 32 16l24 36z" fill="#fff"/><rect x="22" y="36" width="20" height="16" fill="#f2a900"/></svg>')
 open(os.path.join(OUT,"assets/site.js"),"w").write(JS)
 sm = ['<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-for pth in pages: sm.append(f"<url><loc>{DOMAIN}/{pth if pth!='index.html' else ''}</loc></url>")
+for pth in pages: pr = "1.0" if pth=="index.html" else "0.8" if pth.startswith(("services/","service-areas/")) or pth in("contact.html","booking.html") else "0.6"
+    sm.append(f"<url><loc>{DOMAIN}/{pth if pth!='index.html' else ''}</loc><lastmod>{LASTMOD}</lastmod><priority>{pr}</priority></url>")
 sm.append("</urlset>")
 open(os.path.join(OUT,"sitemap.xml"),"w").write("\n".join(sm))
 open(os.path.join(OUT,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\nSitemap: {DOMAIN}/sitemap.xml\n")
